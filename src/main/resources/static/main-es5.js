@@ -1671,7 +1671,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               _this5.updateDoughnutChart();
             });
           }, function (error) {
-            _this5.yourCountry = 'INIDA';
+            _this5.yourCountry = 'INDIA';
             _this5.yourCountryISO3 = 'IND';
 
             _this5.updateDoughnutChart();
@@ -3967,7 +3967,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(IpLocationService, [{
         key: "getIPAddress",
         value: function getIPAddress() {
-          return this.http.get("http://api.ipify.org/?format=json");
+          return this.http.get("https://api.ipify.org/?format=json");
         }
       }, {
         key: "getLocationFromIp",

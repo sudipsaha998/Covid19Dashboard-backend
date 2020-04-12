@@ -1003,7 +1003,7 @@ let MycountrydoughnutComponent = class MycountrydoughnutComponent {
                 this.updateDoughnutChart();
             });
         }, error => {
-            this.yourCountry = 'INIDA';
+            this.yourCountry = 'INDIA';
             this.yourCountryISO3 = 'IND';
             this.updateDoughnutChart();
         });
@@ -3351,7 +3351,7 @@ let IpLocationService = class IpLocationService {
         this.http = http;
     }
     getIPAddress() {
-        return this.http.get("http://api.ipify.org/?format=json");
+        return this.http.get("https://api.ipify.org/?format=json");
     }
     getLocationFromIp(ip) {
         return this.http.get(`https://ipapi.co/${ip}/json/`);
