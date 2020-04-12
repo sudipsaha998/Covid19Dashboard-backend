@@ -375,7 +375,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"container-lg\">\n    <h1>Covid-19 Tracker</h1>\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <app-covid19-stats></app-covid19-stats>\n        </div>\n        <div class=\"col-md-6\">\n            <app-mycountrydoughnut [countryDataSet]='countryDataSet'></app-mycountrydoughnut>\n            <app-worldstatline></app-worldstatline>\n        </div>\n    </div>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"container-lg\">\n    <h1>Covid-19 Tracker</h1>\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <app-covid19-stats></app-covid19-stats>\n        </div>\n        <div class=\"col-md-6\">\n            <app-mycountrydoughnut></app-mycountrydoughnut>\n            <app-worldstatline></app-worldstatline>\n        </div>\n    </div>\n</div>";
     /***/
   },
 
@@ -1341,12 +1341,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
     /*! @angular/core */
     "./node_modules/@angular/core/fesm2015/core.js");
-    /* harmony import */
-
-
-    var _covid19_stats_covid19_stats_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-    /*! ../covid19-stats/covid19-stats.component */
-    "./src/app/covid19-stats/covid19-stats.component.ts");
 
     var Covid19HomeComponent = /*#__PURE__*/function () {
       function Covid19HomeComponent() {
@@ -1354,16 +1348,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       _createClass(Covid19HomeComponent, [{
-        key: "ngAfterViewInit",
-        value: function ngAfterViewInit() {
-          var _this = this;
-
-          setTimeout(function () {
-            _this.countryDataSet = _this.covid19Stat.countries;
-          }, 1000);
-          console.log("after view init");
-        }
-      }, {
         key: "ngOnInit",
         value: function ngOnInit() {}
       }]);
@@ -1371,9 +1355,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return Covid19HomeComponent;
     }();
 
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_covid19_stats_covid19_stats_component__WEBPACK_IMPORTED_MODULE_2__["Covid19StatsComponent"], {
-      "static": false
-    })], Covid19HomeComponent.prototype, "covid19Stat", void 0);
     Covid19HomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-covid19-home',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -1484,13 +1465,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(Covid19StatsComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this2 = this;
+          var _this = this;
 
           this.getCovid19StatWorldwide();
           this.getUpdatedCovid19Cases(); //this.countryCodes = of(CountryISO3.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize));
 
           this.countryCodes = this.filter.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(function (text) {
-            return _this2.search(text);
+            return _this.search(text);
           }));
           console.log("on init");
         }
@@ -1506,23 +1487,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "getCovid19StatWorldwide",
         value: function getCovid19StatWorldwide() {
-          var _this3 = this;
+          var _this2 = this;
 
           this.covid19StatService.getCovid19StatWorldwide().subscribe(function (res) {
-            _this3.affectedByCountry = res.result;
-            _this3.countries = Object.assign.apply(Object, [{}].concat(_toConsumableArray(_this3.affectedByCountry)));
-            _this3.flag = true;
+            _this2.affectedByCountry = res.result;
+            _this2.countries = Object.assign.apply(Object, [{}].concat(_toConsumableArray(_this2.affectedByCountry)));
+            _this2.flag = true;
           });
         }
       }, {
         key: "getUpdatedCovid19Cases",
         value: function getUpdatedCovid19Cases() {
-          var _this4 = this;
+          var _this3 = this;
 
           this.covid19StatService.getUpdatedCovid19Cases().subscribe(function (res) {
-            _this4.confirmed = res.result.confirmed;
-            _this4.recovered = res.result.recovered;
-            _this4.deaths = res.result.deaths;
+            _this3.confirmed = res.result.confirmed;
+            _this3.recovered = res.result.recovered;
+            _this3.deaths = res.result.deaths;
           });
         }
       }]);
@@ -1623,39 +1604,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       _createClass(MycountrydoughnutComponent, [{
-        key: "ngOnChanges",
-        value: function ngOnChanges() {
+        key: "ngOnInit",
+        value: function ngOnInit() {
           this.getUserLocation();
         }
       }, {
-        key: "ngOnInit",
-        value: function ngOnInit() {} //this.getUserLocation();
+        key: "getYourCountryCovid19Cases",
+        value: function getYourCountryCovid19Cases(country) {
+          var _this4 = this;
 
-        /*
-          getYourCountryCovid19Cases(): void {
-            this.covid19StatService.getYourCountryCovid19Cases('IND')
-              .subscribe((res: Covid19Affected) => {
-                this.confirmed = res.confirmed;
-                this.recovered = res.recovered;
-                this.deaths = res.deaths;
-                this.updatedDataAvailable = true;
-                this.doughnutChartData = [
-                  [this.confirmed, this.recovered, this.deaths]
-                ]
-              });
-          }
-          */
-
-      }, {
-        key: "updateDoughnutChart",
-        value: function updateDoughnutChart() {
-          if (this.countryDataSet) {
-            this.confirmed = this.countryDataSet[this.yourCountryISO3] ? this.countryDataSet[this.yourCountryISO3].confirmed : 0;
-            this.recovered = this.countryDataSet[this.yourCountryISO3] ? this.countryDataSet[this.yourCountryISO3].recovered : 0;
-            this.deaths = this.countryDataSet[this.yourCountryISO3] ? this.countryDataSet[this.yourCountryISO3].deaths : 0;
-            this.doughnutChartData = [[this.confirmed, this.recovered, this.deaths]];
-            this.updatedDataAvailable = true;
-          }
+          this.covid19StatService.getYourCountryCovid19Cases(country).subscribe(function (res) {
+            _this4.confirmed = res.confirmed;
+            _this4.recovered = res.recovered;
+            _this4.deaths = res.deaths;
+            _this4.updatedDataAvailable = true;
+            _this4.doughnutChartData = [[_this4.confirmed, _this4.recovered, _this4.deaths]];
+          });
         }
       }, {
         key: "getUserLocation",
@@ -1668,13 +1632,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               _this5.yourCountry = res.country_name;
               _this5.yourCountryISO3 = res.country_code_iso3;
 
-              _this5.updateDoughnutChart();
+              _this5.getYourCountryCovid19Cases(_this5.yourCountryISO3);
             });
           }, function (error) {
             _this5.yourCountry = 'INDIA';
             _this5.yourCountryISO3 = 'IND';
 
-            _this5.updateDoughnutChart();
+            _this5.getYourCountryCovid19Cases(_this5.yourCountryISO3);
           });
         }
       }]);
@@ -1690,7 +1654,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }];
     };
 
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], MycountrydoughnutComponent.prototype, "countryDataSet", void 0);
     MycountrydoughnutComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-mycountrydoughnut',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
