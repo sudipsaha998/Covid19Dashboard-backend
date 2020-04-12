@@ -375,7 +375,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"container-lg\">\n    <h1>Covid-19 Tracker</h1>\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <app-covid19-stats></app-covid19-stats>\n        </div>\n        <div class=\"col-md-6\">\n            <app-mycountrydoughnut></app-mycountrydoughnut>\n            <app-worldstatline></app-worldstatline>\n        </div>\n    </div>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"container-lg\">\n    <h1>Covid-19 Tracker</h1>\n    <div class=\"row\">\n        <div class=\"col-md-6\">\n            <app-covid19-stats></app-covid19-stats>\n        </div>\n        <div class=\"col-md-6\">\n            <app-mycountrydoughnut [countryDataSet]='countryDataSet'></app-mycountrydoughnut>\n            <app-worldstatline></app-worldstatline>\n        </div>\n    </div>\n</div>";
     /***/
   },
 
@@ -415,7 +415,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<h3>{{yourCountry}}</h3>\n<p>Confirmed: {{confirmed}} Recovered: {{recovered}} Deaths: {{deaths}}</p>\n<div *ngIf='updatedDataAvailable' class=\"chart-wrapper\">\n    <canvas baseChart [data]=\"doughnutChartData\" [labels]=\"doughnutChartLabels\" [chartType]=\"doughnutChartType\">\n    </canvas>\n</div>";
+    __webpack_exports__["default"] = "<h3>{{yourCountry}}</h3>\n<p *ngIf='updatedDataAvailable'>Confirmed: {{confirmed}} Recovered: {{recovered}} Deaths: {{deaths}}</p>\n<div *ngIf='updatedDataAvailable' class=\"chart-wrapper\">\n    <canvas baseChart [data]=\"doughnutChartData\" [labels]=\"doughnutChartLabels\" [chartType]=\"doughnutChartType\">\n    </canvas>\n</div>";
     /***/
   },
 
@@ -1341,6 +1341,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
     /*! @angular/core */
     "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _covid19_stats_covid19_stats_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! ../covid19-stats/covid19-stats.component */
+    "./src/app/covid19-stats/covid19-stats.component.ts");
 
     var Covid19HomeComponent = /*#__PURE__*/function () {
       function Covid19HomeComponent() {
@@ -1348,6 +1354,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       _createClass(Covid19HomeComponent, [{
+        key: "ngAfterViewInit",
+        value: function ngAfterViewInit() {
+          var _this = this;
+
+          setTimeout(function () {
+            _this.countryDataSet = _this.covid19Stat.countries;
+          }, 1000);
+          console.log("after view init");
+        }
+      }, {
         key: "ngOnInit",
         value: function ngOnInit() {}
       }]);
@@ -1355,6 +1371,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return Covid19HomeComponent;
     }();
 
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_covid19_stats_covid19_stats_component__WEBPACK_IMPORTED_MODULE_2__["Covid19StatsComponent"], {
+      "static": false
+    })], Covid19HomeComponent.prototype, "covid19Stat", void 0);
     Covid19HomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-covid19-home',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -1465,14 +1484,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(Covid19StatsComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this = this;
+          var _this2 = this;
 
           this.getCovid19StatWorldwide();
           this.getUpdatedCovid19Cases(); //this.countryCodes = of(CountryISO3.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize));
 
           this.countryCodes = this.filter.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["startWith"])(''), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(function (text) {
-            return _this.search(text);
+            return _this2.search(text);
           }));
+          console.log("on init");
         }
       }, {
         key: "search",
@@ -1486,23 +1506,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "getCovid19StatWorldwide",
         value: function getCovid19StatWorldwide() {
-          var _this2 = this;
+          var _this3 = this;
 
           this.covid19StatService.getCovid19StatWorldwide().subscribe(function (res) {
-            _this2.affectedByCountry = res.result;
-            _this2.countries = Object.assign.apply(Object, [{}].concat(_toConsumableArray(_this2.affectedByCountry)));
-            _this2.flag = true;
+            _this3.affectedByCountry = res.result;
+            _this3.countries = Object.assign.apply(Object, [{}].concat(_toConsumableArray(_this3.affectedByCountry)));
+            _this3.flag = true;
           });
         }
       }, {
         key: "getUpdatedCovid19Cases",
         value: function getUpdatedCovid19Cases() {
-          var _this3 = this;
+          var _this4 = this;
 
           this.covid19StatService.getUpdatedCovid19Cases().subscribe(function (res) {
-            _this3.confirmed = res.result.confirmed;
-            _this3.recovered = res.result.recovered;
-            _this3.deaths = res.result.deaths;
+            _this4.confirmed = res.result.confirmed;
+            _this4.recovered = res.result.recovered;
+            _this4.deaths = res.result.deaths;
           });
         }
       }]);
@@ -1585,33 +1605,76 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var src_services_covid19_stats_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! src/services/covid19-stats.service */
     "./src/services/covid19-stats.service.ts");
+    /* harmony import */
+
+
+    var src_services_ip_location_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! src/services/ip-location.service */
+    "./src/services/ip-location.service.ts");
 
     var MycountrydoughnutComponent = /*#__PURE__*/function () {
-      function MycountrydoughnutComponent(covid19StatService) {
+      function MycountrydoughnutComponent(covid19StatService, ipLocationService) {
         _classCallCheck(this, MycountrydoughnutComponent);
 
         this.covid19StatService = covid19StatService;
-        this.yourCountry = "INDIA";
+        this.ipLocationService = ipLocationService;
         this.doughnutChartLabels = ['Confirmed', 'Recovered', 'Deaths'];
         this.doughnutChartType = 'doughnut';
       }
 
       _createClass(MycountrydoughnutComponent, [{
-        key: "ngOnInit",
-        value: function ngOnInit() {
-          this.getYourCountryCovid19Cases();
+        key: "ngOnChanges",
+        value: function ngOnChanges() {
+          this.getUserLocation();
         }
       }, {
-        key: "getYourCountryCovid19Cases",
-        value: function getYourCountryCovid19Cases() {
-          var _this4 = this;
+        key: "ngOnInit",
+        value: function ngOnInit() {} //this.getUserLocation();
 
-          this.covid19StatService.getYourCountryCovid19Cases('IND').subscribe(function (res) {
-            _this4.confirmed = res.confirmed;
-            _this4.recovered = res.recovered;
-            _this4.deaths = res.deaths;
-            _this4.updatedDataAvailable = true;
-            _this4.doughnutChartData = [[_this4.confirmed, _this4.recovered, _this4.deaths]];
+        /*
+          getYourCountryCovid19Cases(): void {
+            this.covid19StatService.getYourCountryCovid19Cases('IND')
+              .subscribe((res: Covid19Affected) => {
+                this.confirmed = res.confirmed;
+                this.recovered = res.recovered;
+                this.deaths = res.deaths;
+                this.updatedDataAvailable = true;
+                this.doughnutChartData = [
+                  [this.confirmed, this.recovered, this.deaths]
+                ]
+              });
+          }
+          */
+
+      }, {
+        key: "updateDoughnutChart",
+        value: function updateDoughnutChart() {
+          if (this.countryDataSet) {
+            this.confirmed = this.countryDataSet[this.yourCountryISO3] ? this.countryDataSet[this.yourCountryISO3].confirmed : 0;
+            this.recovered = this.countryDataSet[this.yourCountryISO3] ? this.countryDataSet[this.yourCountryISO3].recovered : 0;
+            this.deaths = this.countryDataSet[this.yourCountryISO3] ? this.countryDataSet[this.yourCountryISO3].deaths : 0;
+            this.doughnutChartData = [[this.confirmed, this.recovered, this.deaths]];
+            this.updatedDataAvailable = true;
+          }
+        }
+      }, {
+        key: "getUserLocation",
+        value: function getUserLocation() {
+          var _this5 = this;
+
+          this.ipLocationService.getIPAddress().subscribe(function (res) {
+            //this.ipAddress = res.ip;
+            _this5.ipLocationService.getLocationFromIp(res.ip).subscribe(function (res) {
+              _this5.yourCountry = res.country_name;
+              _this5.yourCountryISO3 = res.country_code_iso3;
+
+              _this5.updateDoughnutChart();
+            });
+          }, function (error) {
+            _this5.yourCountry = 'INIDA';
+            _this5.yourCountryISO3 = 'IND';
+
+            _this5.updateDoughnutChart();
           });
         }
       }]);
@@ -1622,9 +1685,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     MycountrydoughnutComponent.ctorParameters = function () {
       return [{
         type: src_services_covid19_stats_service__WEBPACK_IMPORTED_MODULE_2__["Covid19StatsService"]
+      }, {
+        type: src_services_ip_location_service__WEBPACK_IMPORTED_MODULE_3__["IpLocationService"]
       }];
     };
 
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()], MycountrydoughnutComponent.prototype, "countryDataSet", void 0);
     MycountrydoughnutComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-mycountrydoughnut',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -1810,22 +1876,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "getCovid19StatByDateWorldwide",
         value: function getCovid19StatByDateWorldwide() {
-          var _this5 = this;
+          var _this6 = this;
 
           this.covid19StatService.getCovid19StatByDateWorldwide().subscribe(function (res) {
-            _this5.dates = _this5.dates.concat(Object.keys(res.result));
+            _this6.dates = _this6.dates.concat(Object.keys(res.result));
             var data = Object.values(res.result);
             data.forEach(function (element) {
-              _this5.confirmed.push(element.confirmed);
+              _this6.confirmed.push(element.confirmed);
 
-              _this5.recovered.push(element.recovered);
+              _this6.recovered.push(element.recovered);
 
-              _this5.deaths.push(element.deaths);
+              _this6.deaths.push(element.deaths);
             });
-            _this5.lineChartLabels = _this5.dates;
-            _this5.lineChartData[0].data = _this5.confirmed;
-            _this5.lineChartData[1].data = _this5.recovered;
-            _this5.lineChartData[2].data = _this5.deaths;
+            _this6.lineChartLabels = _this6.dates;
+            _this6.lineChartData[0].data = _this6.confirmed;
+            _this6.lineChartData[1].data = _this6.recovered;
+            _this6.lineChartData[2].data = _this6.deaths;
           });
         }
       }]);
@@ -3850,6 +3916,78 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     Covid19StatsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
       providedIn: 'root'
     })], Covid19StatsService);
+    /***/
+  },
+
+  /***/
+  "./src/services/ip-location.service.ts":
+  /*!*********************************************!*\
+    !*** ./src/services/ip-location.service.ts ***!
+    \*********************************************/
+
+  /*! exports provided: IpLocationService */
+
+  /***/
+  function srcServicesIpLocationServiceTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "IpLocationService", function () {
+      return IpLocationService;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/common/http */
+    "./node_modules/@angular/common/fesm2015/http.js");
+
+    var IpLocationService = /*#__PURE__*/function () {
+      function IpLocationService(http) {
+        _classCallCheck(this, IpLocationService);
+
+        this.http = http;
+      }
+
+      _createClass(IpLocationService, [{
+        key: "getIPAddress",
+        value: function getIPAddress() {
+          return this.http.get("http://api.ipify.org/?format=json");
+        }
+      }, {
+        key: "getLocationFromIp",
+        value: function getLocationFromIp(ip) {
+          return this.http.get("https://ipapi.co/".concat(ip, "/json/"));
+        }
+      }]);
+
+      return IpLocationService;
+    }();
+
+    IpLocationService.ctorParameters = function () {
+      return [{
+        type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]
+      }];
+    };
+
+    IpLocationService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+      providedIn: 'root'
+    })], IpLocationService);
     /***/
   },
 
